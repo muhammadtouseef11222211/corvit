@@ -1,0 +1,74 @@
+trigger:
+  branches:
+    include:
+      - main  # Replace with your branch name
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    # Add build steps here
+
+- stage: Dev
+  dependsOn: Build
+  jobs:
+  - job: DevJob
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'specific'
+        project: '<Your_Project_Name>'
+        definition: '<Your_Build_Pipeline_ID>'
+        buildVersionToDownload: 'latest'
+        artifactName: 'drop'
+        itemPattern: '**/test.html'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+
+    # Add steps for deploying to Dev environment using the copied test.html file
+
+- stage: QA
+  dependsOn: Dev
+  jobs:
+  - job: QAJob
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'specific'
+        project: '<Your_Project_Name>'
+        definition: '<Your_Build_Pipeline_ID>'
+        buildVersionToDownload: 'latest'
+        artifactName: 'drop'
+        itemPattern: '**/test.html'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+
+    # Add steps for deploying to QA environment using the copied test.html file
+
+- stage: Production
+  dependsOn: QA
+  jobs:
+  - job: ProductionJob
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'specific'
+        project: '<Your_Project_Name>'
+        definition: '<Your_Build_Pipeline_ID>'
+        buildVersionToDownload: 'latest'
+        artifactName: 'drop'
+        itemPattern: '**/test.html'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+
+    # Add steps for deploying to Production environment using the copied test.html file
