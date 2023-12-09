@@ -21,15 +21,7 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - checkout: self
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        buildType: 'specific'
-        buildVersionToDownload: 'latest'
-        artifactName: 'drop'
-        itemPattern: '**/test.html'
-        targetPath: '$(Build.ArtifactStagingDirectory)'
-
-    # Add steps for deploying to Dev environment using the copied test.html file
+    # Add steps for deploying to Dev environment
 
 - stage: QA
   dependsOn: Dev
@@ -39,15 +31,7 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - checkout: self
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        buildType: 'specific'
-        buildVersionToDownload: 'latest'
-        artifactName: 'drop'
-        itemPattern: '**/test.html'
-        targetPath: '$(Build.ArtifactStagingDirectory)'
-
-    # Add steps for deploying to QA environment using the copied test.html file
+    # Add steps for deploying to QA environment
 
 - stage: Production
   dependsOn: QA
@@ -57,12 +41,4 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - checkout: self
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        buildType: 'specific'
-        buildVersionToDownload: 'latest'
-        artifactName: 'drop'
-        itemPattern: '**/test.html'
-        targetPath: '$(Build.ArtifactStagingDirectory)'
-
-    # Add steps for deploying to Production environment using the copied test.html file
+    # Add steps for deploying to Production environment
