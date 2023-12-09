@@ -24,8 +24,6 @@ stages:
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'specific'
-        project: '<Your_Project_Name>'
-        definition: '<Your_Build_Pipeline_ID>'
         buildVersionToDownload: 'latest'
         artifactName: 'drop'
         itemPattern: '**/test.html'
@@ -44,8 +42,6 @@ stages:
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'specific'
-        project: '<Your_Project_Name>'
-        definition: '<Your_Build_Pipeline_ID>'
         buildVersionToDownload: 'latest'
         artifactName: 'drop'
         itemPattern: '**/test.html'
@@ -64,8 +60,6 @@ stages:
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'specific'
-        project: '<Your_Project_Name>'
-        definition: '<Your_Build_Pipeline_ID>'
         buildVersionToDownload: 'latest'
         artifactName: 'drop'
         itemPattern: '**/test.html'
